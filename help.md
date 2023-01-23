@@ -1,35 +1,7 @@
-## OBS Studio
+# SIMedia Yes API Gateway
 
-This module will allow you to control YES Studio Playout.
+Module to control and monitor the SIMedia Yes API Gateway.
 
-### Configuration
 
-### Available actions
-
-**Recording & Streaming & Outputs**
-
-**Switching & Transitions**
-
-**Sources**
-
-**General**
-
-### Available feedbacks
-
-**Recording & Streaming & Outputs**
-
-**Switching & Transitions**
-
-**Sources**
-
-**General**
-
-### Available variables
-
-**Recording & Streaming & Outputs**
-
-**Switching & Transitions**
-
-**Sources**
-
-**General**
+## Version 1.0.0
+This first release of the module allows you to control Yes Studio Player

@@ -1,3 +1,3 @@
 # SIMedia Yes API Gateway
 
-This module will allow you to control YES Studio Playout.
+See [HELP.md](./HELP.md) and [LICENSE](./LICENSE)
