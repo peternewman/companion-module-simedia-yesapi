@@ -1,0 +1,34 @@
+{
+	"name": "si-media-yes-api-gateway",
+	"version": "1.0.0",
+	"api_version": "1.0.0",
+	"keywords": [
+		"Stream"
+	],
+	"manufacturer": "SiMedia",
+	"product": "Yes! API Gateway",
+	"shortname": "YAG",
+	"description": "a YES! module for Bitfocus Companion",
+	"main": "index.js",
+	"scripts": {
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"author": "",
+	"contributors": [
+		""
+	],
+	"license": "MIT",
+	"dependencies": {
+		"axios": "^1.2.1",
+		"material-icons": "^1.13.1",
+		"node-fetch": "^2.6.7"
+	},
+	"homepage": "",
+	"bugs": {
+		"url": ""
+	},
+	"repository": {
+		"type": "git",
+		"url": ""
+	}
+}
