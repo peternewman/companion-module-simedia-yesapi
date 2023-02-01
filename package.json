@@ -1,34 +1,20 @@
 {
-	"name": "si-media-yes-api-gateway",
-	"version": "1.0.0",
-	"api_version": "1.0.0",
-	"keywords": [
-		"Stream"
-	],
-	"manufacturer": "SiMedia",
-	"product": "Yes! API Gateway",
-	"shortname": "YAG",
-	"description": "a YES! module for Bitfocus Companion",
-	"main": "index.js",
+	"name": "yes-api-gateway",
+	"version": "0.1.0",
+	"main": "main.js",
 	"scripts": {
-		"test": "echo \"Error: no test specified\" && exit 1"
+		"format": "prettier -w ."
 	},
-	"author": "",
-	"contributors": [
-		""
-	],
 	"license": "MIT",
-	"dependencies": {
-		"axios": "^1.2.1",
-		"material-icons": "^1.13.1",
-		"node-fetch": "^2.6.7"
-	},
-	"homepage": "",
-	"bugs": {
-		"url": ""
-	},
 	"repository": {
 		"type": "git",
-		"url": ""
-	}
+		"url": "git+https://github.com/bitfocus/companion-module-your-module-name.git"
+	},
+	"dependencies": {
+		"@companion-module/base": "~1.0.1"
+	},
+	"devDependencies": {
+		"@companion-module/tools": "^0.5.1"
+	},
+	"prettier": "@companion-module/tools/.prettierrc.json"
 }

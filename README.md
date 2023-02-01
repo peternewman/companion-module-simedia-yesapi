@@ -1,3 +1,6 @@
-# SIMedia Yes API Gateway
+# companion-module-simedia-yesapi
 
-See [HELP.md](./HELP.md) and [LICENSE](./LICENSE)
+A [BitFocus Companion](https://bitfocus.io/companion/) module for interacting
+with the YES API Gateway and control the Yes Studio Player using Elgato Streamdeck.
+
+See [HELP.md](./companion/HELP.md) and [LICENSE](./LICENSE)
