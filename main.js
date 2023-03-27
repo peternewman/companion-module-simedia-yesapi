@@ -63,14 +63,15 @@ class ModuleInstance extends InstanceBase {
 			{
 				type: 'textinput',
 				id: 'port',
-				label: 'Port',
+				label: 'Port (Yes API Gateway)',
+				default:5030,
 				width: 6,
 				regex: this.REGEX_PORT,
 			},
 			{
 				type: 'textinput',
 				id: 'host',
-				label: 'Hostname',
+				label: 'Hostname (Yes API Gateway)',
 				width: 6,
 			},
 			{
@@ -83,7 +84,7 @@ class ModuleInstance extends InstanceBase {
 			{
 				type: 'number',
 				id: 'requestStatus',
-				label: 'Request Status Time (Min 500 Max 200)',
+				label: 'Request Status Time (Min 500 Max 2000)',
 				default: 750,
         min: 500,
         max: 2000,
@@ -91,29 +92,39 @@ class ModuleInstance extends InstanceBase {
 		]
 	}
 	async init(config) {
+		this.updateStatus(InstanceStatus.Disconnected)
 		this.config = config
 		this.initPresets()
 		this.initActions()
 		this.initVariables()
 		this.initFeedback()
 		this.checkListOfClips = true;
-		this.updateStatus(InstanceStatus.Ok)
+		this.loadingOrder();
 	}
 	async configUpdated(config) {
 		this.config = config
+		this.openConnectionForToken = false
+		this.openConnectionForStatus = false
+		this.updateStatus(InstanceStatus.Connecting)
+		setTimeout(() => {
+			this.lanchConfig()
+			}, 3000)
+	}
+
+	lanchConfig(){
 		if (this.config.host && this.config.port && this.config.pass && this.config.user) {
 			try {
-				if ( this.openConnectionForToken = false || this.openConnectionForStatus === true){
+				if ( this.openConnectionForToken === true || this.openConnectionForStatus === true){
 				this.endTokenAndStatus()
 				}
 			}catch (error){
 				this.endTokenAndStatus()
-				console.log('Error ', error)
+				console.log('Config error: ', error)
 			}finally{
 				this.loadingOrder();
 			}
-		} else {
-			this.log('warn', 'Please ensure your server IP, Port, User and Pass are correct in the module settings')
+		}else{
+			console.log('Missing Confing unable to connect')
 		}
 	}
 	/**
@@ -122,11 +133,13 @@ class ModuleInstance extends InstanceBase {
 	endTokenAndStatus(){
 		this.openConnectionForToken = false;
 		this.openConnectionForStatus = false;
+		this.updateStatus(InstanceStatus.Disconnected)
 	}
 	/*
-	* Setting the refresh time for the method workerForStatus
+	* Start Token and Status requests
 	*/
 	async loadingOrder(){
+		this.updateStatus(InstanceStatus.Connecting)
 		this.openConnectionForToken = true;
 		this.openConnectionForStatus = true;
 		this.checkStatusTime = this.config.requestStatus;
@@ -169,6 +182,7 @@ class ModuleInstance extends InstanceBase {
 			});
 			const data = await response.json();
 			if (data.accessToken){
+				this.updateStatus(InstanceStatus.Ok)
 				this.token = data.accessToken;
 				this.tokenExpireDate = Date.parse(data.expireDate);
 				console.log('Connected to: YES API GATEWAY')
@@ -176,6 +190,7 @@ class ModuleInstance extends InstanceBase {
 				this.status(this.STATUS_WARNING, 'Connecting')
 			}
 		} catch(error) {
+			this.updateStatus(InstanceStatus.ConnectionFailure)
 		console.log('Error in connection with Yes Api Gateway: ',error)
 		}
 		this.tokenStatusRefresher()
@@ -219,7 +234,7 @@ class ModuleInstance extends InstanceBase {
 			When you open a rundown or init the app, checkListOfClips true set for only once the selected clip at the first element of the clips.
 			*/
 			if (data.clips.length){
-				console.log('<heartbeat>')
+				console.log('< Working with clip:',this.currentClipId,'>')
 				if (this.checkListOfClips === true){
 					this.doActions(`${this.httpUrlPlayerControl}select?clipId=${data.clips[0].id}`)
 					this.checkListOfClips = false;
@@ -244,6 +259,7 @@ class ModuleInstance extends InstanceBase {
 					this.checkFeedbacks()
 				}
 			} else {
+					console.log(`< Rundown or Clip not found >`)
 					this.currentClipStatus = 500;
 					this.currentClipName = 'NO DATA'
 					this.setVariableNameAndStatus()
@@ -252,7 +268,7 @@ class ModuleInstance extends InstanceBase {
 			}
 
 		} catch (error) {
-			console.log(error)
+			console.log('Error in reach the current clip status: ',error)
 		}
 		this.clipStatusRefresher();
 	}
@@ -275,6 +291,16 @@ class ModuleInstance extends InstanceBase {
 			case 9: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'PAUSED'});break;
 			case 10: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'PLACEHOLDER'});break;
 			case 11: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'LOOP'}); break;
+			case 12: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP1'}); break;
+			case 13: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'EMPTY STORY'}); break;
+			case 14: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP1 ON AIR'}); break;
+			case 15: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP2'}); break;
+			case 16: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP2 ON AIR'}); break;
+			case 17: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP3'}); break;
+			case 18: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP3 ON AIR'}); break;
+			case 19: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP1 CUED'}); break;
+			case 20: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP2 CUED'}); break;
+			case 21: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'TP3 CUED'}); break;
 			default: 	this.setVariableValues({['STATUS_CURRENT_CLIP']: 'NO STATUS'});break;
 			}
 	}

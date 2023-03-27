@@ -3,7 +3,7 @@
 	"name": "yes-api-gateway",
 	"shortname": "YAG",
 	"description": "This module created by SiMedia allow you to control the Yes Studio Play through the Elgato Streamdeck",
-	"version": "1.0.0",
+	"version": "1.1.0",
 	"license": "MIT",
 	"repository": "git+https://github.com/bitfocus/companion-module-simedia-yesapi.git",
 	"bugs": "https://github.com/bitfocus/companion-module-simedia-yesapi/issues",

@@ -30,7 +30,7 @@ exports.initFeedback = function () {
     options: [{
     }],
     callback: () => {
-      if (this.currentClipStatus === 500){
+      if (this.currentClipStatus === 500 || this.currentClipStatus === 13){
         return true
       }else {
         return false
@@ -62,7 +62,7 @@ exports.initFeedback = function () {
     options: [{
     }],
     callback: () => {
-      if (this.currentClipStatus === 1){
+      if (this.currentClipStatus === 1 || this.currentClipStatus === 19 || this.currentClipStatus === 20 || this.currentClipStatus === 21 ){
         return true
       }else {
         return false
@@ -78,7 +78,7 @@ exports.initFeedback = function () {
     options: [{
     }],
     callback: () => {
-      if (this.currentClipStatus === 3){
+      if (this.currentClipStatus === 3 || this.currentClipStatus === 14 || this.currentClipStatus === 16 || this.currentClipStatus === 18){
         return true
       }else {
         return false
